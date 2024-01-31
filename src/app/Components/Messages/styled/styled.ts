@@ -11,6 +11,15 @@ export const Content = styled.div`
   flex: 1 1 0%;
   width: 95%;
   margin: 0 auto;
+  overflow-y: scroll;
+  max-height: calc(100vh - 60px);
+  &::-webkit-scrollbar {
+    width: 0;
+    background: transparent; 
+  }
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
 `;
 
 export const MessageType = styled.div`
@@ -18,6 +27,7 @@ export const MessageType = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
+  box-shadow: 0px 1px 0px 0px #E5E5EA inset;
   .ant-input-group-wrapper {
     width: 90%;
   }
