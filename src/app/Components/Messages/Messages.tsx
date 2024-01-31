@@ -21,9 +21,6 @@ const Messages: React.FC<MessagesProps> = () => {
 
   const handleSendMessage = (text: string) => {
     addMessage(text);
-    if (text.toLowerCase() === "бот") {
-      addMessage("Hello World!");
-    }
   };
 
   const handleEditMessage = (id: number, newText: string) => {
@@ -34,17 +31,19 @@ const Messages: React.FC<MessagesProps> = () => {
     deleteMessage(id);
   };
 
+  console.log(messages);
+
   return (
     <>
       <ST.Container className={styles.Container}>
         <ST.Content>
           <List
             dataSource={messages}
-            renderItem={(item, index) => (
+            renderItem={(item) => (
               <List.Item style={{ textAlign: item.isBot ? "left" : "right" }}>
                 <List.Item.Meta
                   avatar={item.isBot ? <Avatar icon={<EditOutlined />} /> : <Avatar />}
-                  title={item.isBot ? "Бот" : "Пользователь"}
+                  title={item.isBot ? "Hello World!" : "Пользователь"}
                   description={
                     <>
                       <div>{item.text}</div>
@@ -52,13 +51,13 @@ const Messages: React.FC<MessagesProps> = () => {
                         {!item.isBot && (
                           <Button
                             icon={<EditOutlined />}
-                            onClick={() => handleEditMessage(index, "Новый текст")}
+                            onClick={() => handleEditMessage(item.id, "Новый текст")}
                           />
                         )}
                         {!item.isBot && (
                           <Button
                             icon={<DeleteOutlined />}
-                            onClick={() => handleDeleteMessage(index)}
+                            onClick={() => handleDeleteMessage(item.id)}
                           />
                         )}
                         {dayjs(item.timestamp).format("HH:mm")}

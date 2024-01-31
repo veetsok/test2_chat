@@ -5,7 +5,7 @@ interface Message {
   id: number;
   text: string;
   isBot: boolean;
-  timestamp: string;
+  timestamp: any;
 }
 
 interface ChatState {
@@ -17,7 +17,7 @@ interface ChatState {
 
 const useChatStore = create<ChatState>((set) => {
   const initialMessages = JSON.parse(localStorage.getItem("chatMessages") || "[]").map(
-    (message) => ({
+    (message: Message) => ({
       ...message,
       timestamp: dayjs(message.timestamp),
     })
@@ -28,17 +28,24 @@ const useChatStore = create<ChatState>((set) => {
     addMessage: (text) => {
       set((state) => {
         const newMessage: Message = {
-          id: state.messages.length + 1,
+          id: dayjs().valueOf(),
           text,
           isBot: false,
           timestamp: dayjs(),
         };
-        const updatedMessages = [...state.messages, newMessage];
+
+        const botMessage: Message = {
+          id: dayjs().add(1, "millisecond").valueOf(),
+          text: "Бот",
+          isBot: true,
+          timestamp: dayjs().add(1, "second"),
+        };
+
+        const updatedMessages = [...state.messages, newMessage, botMessage];
         localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
         return { messages: updatedMessages };
       });
     },
-
     editMessage: (id, newText) => {
       set((state) => {
         const updatedMessages = state.messages.map((message) =>
