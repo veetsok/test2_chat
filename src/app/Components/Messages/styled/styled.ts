@@ -14,12 +14,15 @@ export const Content = styled.div`
 `;
 
 export const MessageType = styled.div`
-  padding: 16px 12px;
+  padding: 16px;
   display: flex;
   align-items: center;
   gap: 12px;
   .ant-input-group-wrapper {
     width: 90%;
+  }
+  & form {
+    width: calc(100% - 80px);
   }
 `;
 

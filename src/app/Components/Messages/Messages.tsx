@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import * as ST from "./styled/styled";
 import styles from "../../page.module.css";
-import { Input, List, Avatar, Space, Button } from "antd";
+import { Input, List, Avatar, Space } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import ImageAtom from "@/app/UI_KIT/Atoms/Image.atom";
@@ -19,9 +19,13 @@ interface MessagesProps {}
 
 const Messages: React.FC<MessagesProps> = () => {
   const { messages, addMessage, editMessage, deleteMessage } = useChatStore();
+  const [inputValue, setInputValue] = useState<string>("");
 
-  const handleSendMessage = (text: string) => {
-    addMessage(text);
+  const handleSendMessage = () => {
+    if (inputValue.trim() !== "") {
+      addMessage(inputValue);
+      setInputValue(""); // Очистка инпута после отправки сообщения
+    }
   };
 
   const handleEditMessage = (id: number, newText: string) => {
@@ -54,6 +58,7 @@ const Messages: React.FC<MessagesProps> = () => {
                       <Space>
                         {!item.isBot && (
                           <ImageAtom
+                            cursor="pointer"
                             type={ImageEnum.enum_defaultSvg}
                             icon={<EditOutlined />}
                             onClick={() => handleEditMessage(item.id, "Новый текст")}
@@ -61,6 +66,7 @@ const Messages: React.FC<MessagesProps> = () => {
                         )}
                         {!item.isBot && (
                           <ImageAtom
+                            cursor="pointer"
                             type={ImageEnum.enum_defaultSvg}
                             icon={<DeleteOutlined />}
                             onClick={() => handleDeleteMessage(item.id)}
@@ -69,6 +75,7 @@ const Messages: React.FC<MessagesProps> = () => {
                         {dayjs(item.timestamp).format("HH:mm")}
                         {!item.isBot && (
                           <ImageAtom
+                            cursor="pointer"
                             type={ImageEnum.enum_defaultSvg}
                             icon={<ReceiptIcon />}
                           />
@@ -89,12 +96,18 @@ const Messages: React.FC<MessagesProps> = () => {
           fill={Colors.BLACK}
           icon={<SmileyIcon />}
         />
-        <Input.Search
-          enterButton="Отправить"
-          onSearch={handleSendMessage}
-          placeholder="Введите сообщение..."
-        />
-
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSendMessage();
+          }}
+        >
+          <Input
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Start typing..."
+          />
+        </form>
         <ImageAtom
           cursor="pointer"
           type={ImageEnum.enum_defaultSvg}
@@ -103,6 +116,7 @@ const Messages: React.FC<MessagesProps> = () => {
         />
         <ImageAtom
           cursor="pointer"
+          onClick={handleSendMessage}
           type={ImageEnum.enum_defaultSvg}
           fill={Colors.AIRPLANE}
           icon={<AirplaneIcon />}
