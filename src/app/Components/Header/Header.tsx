@@ -1,7 +1,6 @@
 import { DashOutlined } from "@ant-design/icons";
 import React from "react";
 import styles from "./styled/header.module.css";
-import ST from "../../page.module.css";
 import Image from "next/image";
 
 interface HeaderProps {}
