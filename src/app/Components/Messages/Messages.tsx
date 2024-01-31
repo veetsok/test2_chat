@@ -102,7 +102,7 @@ const Messages: React.FC<MessagesProps> = () => {
                             onClick={() => handleDeleteMessage(item.id)}
                           />
                         )}
-                        {dayjs(item.timestamp).format("HH:mm")}
+                        {dayjs(item.timestamp).format("h:mm A")}
                         {!item.isBot && (
                           <ImageAtom
                             cursor="pointer"
