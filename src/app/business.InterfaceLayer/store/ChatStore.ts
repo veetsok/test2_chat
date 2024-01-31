@@ -1,16 +1,26 @@
-import create from "zustand";
+import { create } from "zustand";
 import dayjs from "dayjs";
+
+// Define the bot data
+const bots = [
+  { name: "Janet", avatar: "/img/1.jpg" },
+  { name: "Aubrey", avatar: "/img/2.jpg" },
+  { name: "Anna", avatar: "/img/3.jpg" },
+  { name: "Zaga", avatar: "/img/4.jpg" },
+];
 
 interface Message {
   id: number;
   text: string;
   isBot: boolean;
   timestamp: any;
+  botName?: string;
+  botAvatar?: string;
 }
 
 interface ChatState {
   messages: Message[];
-  addMessage: (text: string) => void;
+  addMessage: (text: string | File) => void; // Updated addMessage to accept File type
   editMessage: (id: number, newText: string) => void;
   deleteMessage: (id: number) => void;
 }
@@ -27,18 +37,31 @@ const useChatStore = create<ChatState>((set) => {
     messages: initialMessages,
     addMessage: (text) => {
       set((state) => {
-        const newMessage: Message = {
-          id: dayjs().valueOf(),
-          text,
-          isBot: false,
-          timestamp: dayjs(),
-        };
+        let newMessage: Message;
+        if (typeof text === "string") {
+          newMessage = {
+            id: dayjs().valueOf(),
+            text,
+            isBot: false,
+            timestamp: dayjs(),
+          };
+        } else {
+          // Handling file upload
+          newMessage = {
+            id: dayjs().valueOf(),
+            text: URL.createObjectURL(text),
+            isBot: false,
+            timestamp: dayjs(),
+          };
+        }
 
         const botMessage: Message = {
           id: dayjs().add(1, "millisecond").valueOf(),
-          text: "Бот",
+          text: "Hello World!",
           isBot: true,
           timestamp: dayjs().add(1, "second"),
+          botName: bots[Math.floor(Math.random() * bots.length)].name,
+          botAvatar: bots[Math.floor(Math.random() * bots.length)].avatar,
         };
 
         const updatedMessages = [...state.messages, newMessage, botMessage];

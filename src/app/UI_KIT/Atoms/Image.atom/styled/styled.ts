@@ -14,6 +14,7 @@ export const SrcImage = styled.img<ImageStyleProps>`
   max-height: 100%;
   max-width: 100%;
   width: 100%;
+  border-radius: 200px;
 `;
 
 export const BackgroundImage = styled.div<ImageStyleProps>`
