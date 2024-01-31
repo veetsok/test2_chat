@@ -12,7 +12,7 @@ export const MessageType = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  & input {
-    width: 90%;
-  }
+  .ant-input-group-wrapper {
+      width: 90%;
+    }
 `;

@@ -1,23 +1,75 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import * as ST from "./styled/styled";
 import styles from "../../page.module.css";
-import { Input } from "antd";
+import { Input, List, Avatar, Space, Button } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 import ImageAtom from "@/app/UI_KIT/Atoms/Image.atom";
 import ImageEnum from "@/app/UI_KIT/Atoms/Image.atom/enum";
 import MentionIcon from "../../shared/icons/mention.svg?react";
 import SmileyIcon from "../../shared/icons/smiley.svg?react";
 import AirplaneIcon from "../../shared/icons/paper-airplane.svg?react";
 import Colors from "@/app/constants/colors";
+import useChatStore from "@/app/business.InterfaceLayer/store/ChatStore";
 
 interface MessagesProps {}
 
 const Messages: React.FC<MessagesProps> = () => {
+  const { messages, addMessage, editMessage, deleteMessage } = useChatStore();
+
+  const handleSendMessage = (text: string) => {
+    addMessage(text);
+    if (text.toLowerCase() === "бот") {
+      addMessage("Hello World!");
+    }
+  };
+
+  const handleEditMessage = (id: number, newText: string) => {
+    editMessage(id, newText);
+  };
+
+  const handleDeleteMessage = (id: number) => {
+    deleteMessage(id);
+  };
+
   return (
     <>
       <ST.Container className={styles.Container}>
-        <ST.Content>GOVNO</ST.Content>
+        <ST.Content>
+          <List
+            dataSource={messages}
+            renderItem={(item, index) => (
+              <List.Item style={{ textAlign: item.isBot ? "left" : "right" }}>
+                <List.Item.Meta
+                  avatar={item.isBot ? <Avatar icon={<EditOutlined />} /> : <Avatar />}
+                  title={item.isBot ? "Бот" : "Пользователь"}
+                  description={
+                    <>
+                      <div>{item.text}</div>
+                      <Space>
+                        {!item.isBot && (
+                          <Button
+                            icon={<EditOutlined />}
+                            onClick={() => handleEditMessage(index, "Новый текст")}
+                          />
+                        )}
+                        {!item.isBot && (
+                          <Button
+                            icon={<DeleteOutlined />}
+                            onClick={() => handleDeleteMessage(index)}
+                          />
+                        )}
+                        {dayjs(item.timestamp).format("HH:mm")}
+                      </Space>
+                    </>
+                  }
+                />
+              </List.Item>
+            )}
+          />
+        </ST.Content>
       </ST.Container>
       <ST.MessageType>
         <ImageAtom
@@ -26,7 +78,11 @@ const Messages: React.FC<MessagesProps> = () => {
           fill={Colors.BLACK}
           icon={<SmileyIcon />}
         />
-        <Input placeholder="Start typing..." />
+        <Input.Search
+          enterButton="Отправить"
+          onSearch={handleSendMessage}
+          placeholder="Введите сообщение..."
+        />
 
         <ImageAtom
           cursor="pointer"
@@ -45,87 +101,3 @@ const Messages: React.FC<MessagesProps> = () => {
   );
 };
 export default Messages;
-
-// "use client";
-
-// import React, { useState } from "react";
-// import { Avatar, Input, Button, List, Space, message } from "antd";
-// import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-// import dayjs from "dayjs";
-// import "dayjs/locale/ru";
-// import ST from "../../page.module.css";
-
-// const Message = ({ text, isBot, isEditable, onEdit, onDelete, timestamp }) => (
-//   <List.Item style={{ textAlign: isBot ? "left" : "right" }}>
-//     <List.Item.Meta
-//       avatar={isBot ? <Avatar icon="user" /> : <Avatar />}
-//       title={isBot ? "Бот" : "Пользователь"}
-//       description={
-//         <>
-//           <div>{text}</div>
-//           <Space>
-//             {isEditable && <Button icon={<EditOutlined />} onClick={onEdit} />}
-//             {isEditable && <Button icon={<DeleteOutlined />} onClick={onDelete} />}
-//             {dayjs(timestamp).format("HH:mm")}
-//           </Space>
-//         </>
-//       }
-//     />
-//   </List.Item>
-// );
-
-// const Chat = () => {
-//   const [messages, setMessages] = useState([]);
-
-//   const addMessage = (text, isBot = false) => {
-//     setMessages([
-//       ...messages,
-//       {
-//         text,
-//         isBot,
-//         timestamp: dayjs(),
-//       },
-//     ]);
-//   };
-
-//   const handleSendMessage = (text) => {
-//     addMessage(text);
-//     if (text.toLowerCase() === "бот") {
-//       addMessage("Hello World!", true);
-//     }
-//   };
-
-//   const handleEditMessage = (index, newText) => {
-//     const updatedMessages = [...messages];
-//     updatedMessages[index].text = newText;
-//     setMessages(updatedMessages);
-//   };
-
-//   const handleDeleteMessage = (index) => {
-//     const updatedMessages = [...messages];
-//     updatedMessages.splice(index, 1);
-//     setMessages(updatedMessages);
-//   };
-
-//   return (
-//     <div className={ST.Container}>
-//       <List
-//         dataSource={messages}
-//         renderItem={(item, index) => (
-//           <Message
-//             key={index}
-//             text={item.text}
-//             isBot={item.isBot}
-//             isEditable={!item.isBot}
-//             timestamp={item.timestamp}
-//             onEdit={() => handleEditMessage(index, "Новый текст")}
-//             onDelete={() => handleDeleteMessage(index)}
-//           />
-//         )}
-//       />
-//       <Input.Search enterButton="Отправить" onSearch={handleSendMessage} />
-//     </div>
-//   );
-// };
-
-// export default Chat;
