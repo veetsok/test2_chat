@@ -20,16 +20,23 @@ interface MessagesProps {}
 const Messages: React.FC<MessagesProps> = () => {
   const { messages, addMessage, editMessage, deleteMessage } = useChatStore();
   const [inputValue, setInputValue] = useState<string>("");
+  const [editingMessageId, setEditingMessageId] = useState<number | null>(null);
 
   const handleSendMessage = () => {
     if (inputValue.trim() !== "") {
-      addMessage(inputValue);
-      setInputValue(""); // Очистка инпута после отправки сообщения
+      if (editingMessageId !== null) {
+        editMessage(editingMessageId, inputValue);
+        setEditingMessageId(null);
+      } else {
+        addMessage(inputValue);
+      }
+      setInputValue("");
     }
   };
 
-  const handleEditMessage = (id: number, newText: string) => {
-    editMessage(id, newText);
+  const handleEditMessage = (id: number, text: string) => {
+    setEditingMessageId(id);
+    setInputValue(text);
   };
 
   const handleDeleteMessage = (id: number) => {
@@ -61,7 +68,7 @@ const Messages: React.FC<MessagesProps> = () => {
                             cursor="pointer"
                             type={ImageEnum.enum_defaultSvg}
                             icon={<EditOutlined />}
-                            onClick={() => handleEditMessage(item.id, "Новый текст")}
+                            onClick={() => handleEditMessage(item.id, item.text)}
                           />
                         )}
                         {!item.isBot && (
