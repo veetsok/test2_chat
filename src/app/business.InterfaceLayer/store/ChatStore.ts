@@ -36,7 +36,7 @@ const useChatStore = create<ChatState>((set) => {
 
         const botMessage: Message = {
           id: dayjs().add(1, "millisecond").valueOf(),
-          text: "Бот",
+          text: "Hello World!",
           isBot: true,
           timestamp: dayjs().add(1, "second"),
         };

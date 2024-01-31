@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, from "react";
 import * as ST from "./styled/styled";
 import styles from "../../page.module.css";
 import { Input, List, Avatar, Space, Button } from "antd";
@@ -10,6 +10,7 @@ import ImageAtom from "@/app/UI_KIT/Atoms/Image.atom";
 import ImageEnum from "@/app/UI_KIT/Atoms/Image.atom/enum";
 import MentionIcon from "../../shared/icons/mention.svg?react";
 import SmileyIcon from "../../shared/icons/smiley.svg?react";
+import ReceiptIcon from "../../shared/icons/receipt.svg?react";
 import AirplaneIcon from "../../shared/icons/paper-airplane.svg?react";
 import Colors from "@/app/constants/colors";
 import useChatStore from "@/app/business.InterfaceLayer/store/ChatStore";
@@ -40,13 +41,16 @@ const Messages: React.FC<MessagesProps> = () => {
           <List
             dataSource={messages}
             renderItem={(item) => (
-              <List.Item style={{ textAlign: item.isBot ? "left" : "right" }}>
-                <List.Item.Meta
-                  avatar={item.isBot ? <Avatar icon={<EditOutlined />} /> : <Avatar />}
-                  title={item.isBot ? "Hello World!" : "Пользователь"}
+              <ST.StyledListItem isBot={item.isBot}>
+                <ST.StyledListItemMeta
+                  isBot={item.isBot}
+                  avatar={item.isBot ? <Avatar icon={<EditOutlined />} /> : ""}
+                  title={item.isBot ? "USERS" : ""}
                   description={
                     <>
-                      <div>{item.text}</div>
+                      <ST.ListDescription isBot={item.isBot}>
+                        {item.text}
+                      </ST.ListDescription>
                       <Space>
                         {!item.isBot && (
                           <Button
@@ -61,11 +65,16 @@ const Messages: React.FC<MessagesProps> = () => {
                           />
                         )}
                         {dayjs(item.timestamp).format("HH:mm")}
+                        {!item.isBot && (<ImageAtom
+                          type={ImageEnum.enum_defaultSvg}
+                          icon={<ReceiptIcon />} 
+                        />
+                        )}
                       </Space>
                     </>
                   }
                 />
-              </List.Item>
+              </ST.StyledListItem>
             )}
           />
         </ST.Content>
