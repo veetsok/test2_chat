@@ -23,6 +23,7 @@ export const Content = styled.div`
   flex: 1 1 0%;
   width: 95%;
   margin: 0 auto;
+  overflow: hidden;
   overflow-y: scroll;
   max-height: calc(100vh - 60px);
   &::-webkit-scrollbar {

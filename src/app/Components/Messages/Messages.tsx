@@ -66,7 +66,6 @@ const Messages: React.FC<MessagesProps> = () => {
       addMessage(file);
     }
   };
-  console.log(messages);
 
   return (
     <>
