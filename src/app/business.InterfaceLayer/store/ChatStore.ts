@@ -1,11 +1,21 @@
 import create from "zustand";
 import dayjs from "dayjs";
 
+// Define the bot data
+const bots = [
+  { name: "Janet", avatar: "/img/1.jpg" },
+  { name: "Aubrey", avatar: "/img/2.jpg" },
+  { name: "Anna", avatar: "/img/3.jpg" },
+  { name: "Zaga", avatar: "/img/4.jpg" },
+];
+
 interface Message {
   id: number;
   text: string;
   isBot: boolean;
   timestamp: any;
+  botName?: string;
+  botAvatar?: string;
 }
 
 interface ChatState {
@@ -15,6 +25,7 @@ interface ChatState {
   deleteMessage: (id: number) => void;
 }
 
+// Define the useChatStore hook
 const useChatStore = create<ChatState>((set) => {
   const initialMessages = JSON.parse(localStorage.getItem("chatMessages") || "[]").map(
     (message: Message) => ({
@@ -39,6 +50,8 @@ const useChatStore = create<ChatState>((set) => {
           text: "Hello World!",
           isBot: true,
           timestamp: dayjs().add(1, "second"),
+          botName: bots[Math.floor(Math.random() * bots.length)].name,
+          botAvatar: bots[Math.floor(Math.random() * bots.length)].avatar,
         };
 
         const updatedMessages = [...state.messages, newMessage, botMessage];

@@ -3,13 +3,14 @@
 import React, { useState } from "react";
 import * as ST from "./styled/styled";
 import styles from "../../page.module.css";
-import { Input, List, Avatar, Space } from "antd";
+import { Input, List, Space } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import ImageAtom from "@/app/UI_KIT/Atoms/Image.atom";
 import ImageEnum from "@/app/UI_KIT/Atoms/Image.atom/enum";
 import MentionIcon from "../../shared/icons/mention.svg?react";
 import SmileyIcon from "../../shared/icons/smiley.svg?react";
+import IndicatorIcon from "../../shared/icons/indicator.svg?react";
 import ReceiptIcon from "../../shared/icons/receipt.svg?react";
 import AirplaneIcon from "../../shared/icons/paper-airplane.svg?react";
 import Colors from "@/app/constants/colors";
@@ -55,8 +56,30 @@ const Messages: React.FC<MessagesProps> = () => {
               <ST.StyledListItem isBot={item.isBot}>
                 <ST.StyledListItemMeta
                   isBot={item.isBot}
-                  avatar={item.isBot ? <Avatar icon={<EditOutlined />} /> : ""}
-                  title={item.isBot ? "USERS" : ""}
+                  avatar={
+                    item.isBot ? (
+                      <ST.Indicator>
+                        <ImageAtom
+                          className="indicator"
+                          cursor="pointer"
+                          type={ImageEnum.enum_defaultSvg}
+                          icon={<IndicatorIcon />}
+                          fill="#34C759"
+                        />
+                        <ImageAtom
+                          width="32px"
+                          height="32px"
+                          $borderRadius="200px"
+                          type={ImageEnum.enum_srcImage}
+                          src={item.botAvatar}
+                          alt={item.botName}
+                        />
+                      </ST.Indicator>
+                    ) : (
+                      ""
+                    )
+                  }
+                  title={item.isBot ? item.botName : ""}
                   description={
                     <>
                       <ST.ListDescription isBot={item.isBot}>
