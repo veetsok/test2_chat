@@ -8,8 +8,21 @@
   width: 96%;
 }
 
+.Header h5 {
+  font-family: "Jost";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px;
+}
+
 .Header h6 {
   color: #666668;
+  font-family: "Jost";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .ImageBox {

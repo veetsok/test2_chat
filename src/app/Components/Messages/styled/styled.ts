@@ -62,10 +62,12 @@ export const StyledListItemMeta = styled(List.Item.Meta)<MessagesStylesProps>`
     padding: ${(props) => (props.isBot ? "6px 8px 4px 6px" : "4px 8px")};
     border-radius: 6px;
     color: ${(props) => (props.isBot ? "#2C2C2E" : "#fff")};
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
+    & h4 {
+      font-size: 18px !important;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 20px;
+    }
   }
   .ant-space-item {
     color: ${(props) => (props.isBot ? "#666668" : "#fff")};
@@ -81,7 +83,12 @@ export const Indicator = styled.div<MessagesStylesProps>`
     right: 0px;
   }
 `;
-export const ListDescription = styled.div<MessagesStylesProps>`
+export const ListDescription = styled.h5<MessagesStylesProps>`
   color: ${(props) => (props.isBot ? "#2C2C2E" : "#fff")};
   text-align: left;
+  font-family: "Jost";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
 `;
