@@ -1,4 +1,4 @@
-import { List } from "antd";
+import { List, Popover } from "antd";
 import styled, { keyframes } from "styled-components";
 
 interface MessagesStylesProps {

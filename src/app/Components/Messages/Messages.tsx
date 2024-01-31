@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import * as ST from "./styled/styled";
 import styles from "../../page.module.css";
-import { Input, List, Space } from "antd";
+import { Input, List, Popover, Space } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import ImageAtom from "@/app/UI_KIT/Atoms/Image.atom";
@@ -15,11 +15,20 @@ import ReceiptIcon from "../../shared/icons/receipt.svg?react";
 import AirplaneIcon from "../../shared/icons/paper-airplane.svg?react";
 import Colors from "@/app/constants/colors";
 import useChatStore from "@/app/business.InterfaceLayer/store/ChatStore";
+import SmileyMenu from "./Components/SmileyMenu/SmileyMenu";
 
 interface MessagesProps {}
 
 const Messages: React.FC<MessagesProps> = () => {
   const { messages, addMessage, editMessage, deleteMessage } = useChatStore();
+
+  const [smileyMenuVisible, setSmileyMenuVisible] = useState(false);
+
+  const handleSelectSmiley = (smiley: any) => {
+    setInputValue((prevValue) => prevValue + ` ${smiley} `);
+    setSmileyMenuVisible(false);
+  };
+
   const [inputValue, setInputValue] = useState<string>("");
   const [editingMessageId, setEditingMessageId] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -133,12 +142,20 @@ const Messages: React.FC<MessagesProps> = () => {
         </ST.Content>
       </ST.Container>
       <ST.MessageType>
-        <ImageAtom
-          cursor="pointer"
-          type={ImageEnum.enum_defaultSvg}
-          fill={Colors.BLACK}
-          icon={<SmileyIcon />}
-        />
+        <Popover
+          content={<SmileyMenu onSelectSmiley={handleSelectSmiley} />}
+          open={smileyMenuVisible}
+          trigger="click"
+          placement="topRight"
+          onOpenChange={setSmileyMenuVisible}
+        >
+          <ImageAtom
+            cursor="pointer"
+            type={ImageEnum.enum_defaultSvg}
+            fill={Colors.BLACK}
+            icon={<SmileyIcon />}
+          />
+        </Popover>
         <form
           onSubmit={(e) => {
             e.preventDefault();
