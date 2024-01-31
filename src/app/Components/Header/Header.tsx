@@ -2,6 +2,7 @@ import { DashOutlined } from "@ant-design/icons";
 import React from "react";
 import styles from "./styled/header.module.css";
 import ST from "../../page.module.css";
+import Image from "next/image";
 
 interface HeaderProps {}
 
@@ -10,16 +11,16 @@ const Header: React.FC<HeaderProps> = () => {
     <div className={styles.Header}>
       <div className={styles.ImageBox}>
         <div className={`${styles.Image} ${styles.borderYellow}`}>
-          <img src="/img/1.jpg" alt="1" />
+          <Image src="/img/1.jpg" alt="1" width={100} height={100} />
         </div>
         <div className={`${styles.Image} ${styles.borderPink}`}>
-          <img src="/img/2.jpg" alt="1" />
+          <Image src="/img/2.jpg" alt="2" width={100} height={100} />
         </div>
         <div className={`${styles.Image} ${styles.borderGray}`}>
-          <img src="/img/3.jpg" alt="1" />
+          <Image src="/img/3.jpg" alt="3" width={100} height={100} />
         </div>
         <div className={`${styles.Image} ${styles.borderBlack}`}>
-          <img src="/img/4.jpg" alt="1" />
+          <Image src="/img/4.jpg" alt="4" width={100} height={100} />
         </div>
       </div>
       <div>
