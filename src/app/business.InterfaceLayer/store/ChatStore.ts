@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 import dayjs from "dayjs";
 
 // Define the bot data
@@ -20,12 +20,11 @@ interface Message {
 
 interface ChatState {
   messages: Message[];
-  addMessage: (text: string) => void;
+  addMessage: (text: string | File) => void; // Updated addMessage to accept File type
   editMessage: (id: number, newText: string) => void;
   deleteMessage: (id: number) => void;
 }
 
-// Define the useChatStore hook
 const useChatStore = create<ChatState>((set) => {
   const initialMessages = JSON.parse(localStorage.getItem("chatMessages") || "[]").map(
     (message: Message) => ({
@@ -38,12 +37,23 @@ const useChatStore = create<ChatState>((set) => {
     messages: initialMessages,
     addMessage: (text) => {
       set((state) => {
-        const newMessage: Message = {
-          id: dayjs().valueOf(),
-          text,
-          isBot: false,
-          timestamp: dayjs(),
-        };
+        let newMessage: Message;
+        if (typeof text === "string") {
+          newMessage = {
+            id: dayjs().valueOf(),
+            text,
+            isBot: false,
+            timestamp: dayjs(),
+          };
+        } else {
+          // Handling file upload
+          newMessage = {
+            id: dayjs().valueOf(),
+            text: URL.createObjectURL(text),
+            isBot: false,
+            timestamp: dayjs(),
+          };
+        }
 
         const botMessage: Message = {
           id: dayjs().add(1, "millisecond").valueOf(),

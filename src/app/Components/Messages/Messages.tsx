@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import * as ST from "./styled/styled";
 import styles from "../../page.module.css";
 import { Input, List, Space } from "antd";
@@ -22,6 +22,7 @@ const Messages: React.FC<MessagesProps> = () => {
   const { messages, addMessage, editMessage, deleteMessage } = useChatStore();
   const [inputValue, setInputValue] = useState<string>("");
   const [editingMessageId, setEditingMessageId] = useState<number | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSendMessage = () => {
     if (inputValue.trim() !== "") {
@@ -44,6 +45,18 @@ const Messages: React.FC<MessagesProps> = () => {
     deleteMessage(id);
   };
 
+  const handleUploadImage = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      addMessage(file);
+    }
+  };
   console.log(messages);
 
   return (
@@ -143,6 +156,14 @@ const Messages: React.FC<MessagesProps> = () => {
           type={ImageEnum.enum_defaultSvg}
           fill={Colors.MENTION}
           icon={<MentionIcon />}
+          onClick={handleUploadImage}
+        />
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={handleImageChange}
         />
         <ImageAtom
           cursor="pointer"
