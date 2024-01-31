@@ -1,6 +1,6 @@
 "use client";
 
-import React, from "react";
+import React from "react";
 import * as ST from "./styled/styled";
 import styles from "../../page.module.css";
 import { Input, List, Avatar, Space, Button } from "antd";
@@ -53,22 +53,25 @@ const Messages: React.FC<MessagesProps> = () => {
                       </ST.ListDescription>
                       <Space>
                         {!item.isBot && (
-                          <Button
+                          <ImageAtom
+                            type={ImageEnum.enum_defaultSvg}
                             icon={<EditOutlined />}
                             onClick={() => handleEditMessage(item.id, "Новый текст")}
                           />
                         )}
                         {!item.isBot && (
-                          <Button
+                          <ImageAtom
+                            type={ImageEnum.enum_defaultSvg}
                             icon={<DeleteOutlined />}
                             onClick={() => handleDeleteMessage(item.id)}
                           />
                         )}
                         {dayjs(item.timestamp).format("HH:mm")}
-                        {!item.isBot && (<ImageAtom
-                          type={ImageEnum.enum_defaultSvg}
-                          icon={<ReceiptIcon />} 
-                        />
+                        {!item.isBot && (
+                          <ImageAtom
+                            type={ImageEnum.enum_defaultSvg}
+                            icon={<ReceiptIcon />}
+                          />
                         )}
                       </Space>
                     </>

@@ -14,7 +14,6 @@ export const Content = styled.div`
 `;
 
 export const MessageType = styled.div`
-  box-shadow: 0px 1px 0px 0px #e5e5ea inset;
   padding: 16px 12px;
   display: flex;
   align-items: center;
@@ -26,6 +25,7 @@ export const MessageType = styled.div`
 
 export const StyledListItem = styled(List.Item)<MessagesStylesProps>`
   text-align: ${(props) => (props.isBot ? "left" : "right")};
+  border: none !important;
 `;
 
 export const StyledListItemMeta = styled(List.Item.Meta)<MessagesStylesProps>`
