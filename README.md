@@ -12,6 +12,11 @@
 - **React + Next.JS** - фреймворк
 - **Dayjs** - работа с датами
 - **ANTD ICONS** - библиотека иконок
+
+### Макет
+
+[https://www.figma.com/file/hgSImYCBrTDjY3tSk564Yy/Chat-UI-kit-(Community)?type=design&node-id=2-2&mode=design&t=9p8OdvPmuWYl2EPY-0](https://www.figma.com/file/hgSImYCBrTDjY3tSk564Yy/Chat-UI-kit-(Community)?type=design&node-id=2-2&mode=design&t=9p8OdvPmuWYl2EPY-0)
+
 ## **Техническое Задание**
 
 - Можно использовать шрифт **Jost** из **Google Fonts,** так как шрифт из макета платный.
